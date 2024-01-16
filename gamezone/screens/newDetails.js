@@ -12,13 +12,10 @@ const ExhibitSchema = yup.object({
 });
 
 const NewExhibitForm = ({ navigation }) => {
-  useEffect(() => {
-    // Fetch data or perform any other initial setup here
-  }, []);
 
   const handleCreateExhibit = async (values) => {
    try {
-     const response = await axios.post('http://192.168.1.64:3000/exhibits', values);
+     const response = await axios.post('http://192.168.1.67:3000/exhibits', values);
  
      if (response.data) {
        navigation.navigate('Home', { exhibitId: response.data._id, exhibitData: response.data });

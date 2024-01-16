@@ -14,7 +14,7 @@ const Explore = ({ navigation }) => {
 
   const checkAuthentication = async () => {
     try {
-      const response = await axios.get('http://192.168.1.64:3000/check-auth');
+      const response = await axios.get('http://192.168.1.67:3000/check-auth');
       setIsAuthenticated(response.data.isAuthenticated);
     } catch (error) {
       console.error(error);
@@ -23,7 +23,7 @@ const Explore = ({ navigation }) => {
 
   const fetchExhibits = async () => {
     try {
-      const response = await fetch('http://192.168.1.64:3000/exhibits');
+      const response = await fetch('http://192.168.1.67:3000/exhibits');
       const data = await response.json();
       setExhibitsData(data);
     } catch (error) {

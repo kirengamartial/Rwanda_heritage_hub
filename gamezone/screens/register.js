@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View, ScrollView, Image } from "react-native";
 import { Formik } from "formik";
 import * as yup from "yup";
 import CustomBox from "react-native-customized-box";
 import axios from 'axios';
+import * as Notifications from 'expo-notifications';
 
 const RegisterSchema = yup.object({
   firstName: yup.string().required("First Name is required").min(2, "Too short"),
@@ -12,7 +13,69 @@ const RegisterSchema = yup.object({
   password: yup.string().required("Password is required").min(6, "Password must be at least 6 characters"),
 });
 
-export default function Register({ navigation }) {
+const Register = ({ navigation }) => {
+  useEffect(() => {
+    registerForPushNotificationsAsync();
+  }, []);
+
+  const registerForPushNotificationsAsync = async () => {
+    try {
+      const { status: existingStatus } = await Notifications.getPermissionsAsync();
+      let finalStatus = existingStatus;
+
+      if (existingStatus !== 'granted') {
+        const { status } = await Notifications.requestPermissionsAsync();
+        finalStatus = status;
+      }
+
+      if (finalStatus === 'granted') {
+        const expoPushToken = (await Notifications.getExpoPushTokenAsync()).data;
+        console.log(expoPushToken);
+
+        // Use the expoPushToken to send a welcome notification
+        sendWelcomeNotification(expoPushToken);
+      } else {
+        alert('Failed to get push token for push notification!');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const sendWelcomeNotification = async (expoPushToken) => {
+    try {
+      await axios.post('https://exp.host/--/api/v2/push/send', {
+        to: expoPushToken,
+        title: 'Welcome to Rwanda Heritage Hub',
+        body: 'Thank you for registering!',
+      });
+    } catch (error) {
+      console.error('Error sending welcome notification:', error);
+    }
+  };
+
+  const handleRegistration = async (values, actions) => {
+    try {
+      const response = await axios.post('http://192.168.1.67:3000/register', {
+        firstname: values.firstName,
+        lastname: values.lastName,
+        useremail: values.useremail,
+        password: values.password,
+      });
+
+      // Check if registration is successful
+      if (response.data.success) {
+        navigation.navigate('Explore');
+      } else {
+        console.error('Registration failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error during registration:', error);
+    }
+
+    actions.resetForm();
+  };
+
   return (
     <ScrollView style={{ backgroundColor: "white" }}>
       <View style={styles.container}>
@@ -25,24 +88,16 @@ export default function Register({ navigation }) {
         />
 
         <Formik
-          initialValues={{ firstName: "", lastName: "", useremail: "", password: "" }}
-          validationSchema={RegisterSchema}
-          onSubmit={(values, actions) => {
-            axios.post('http://192.168.1.64:3000/register',{
-              firstname: values.firstName,
-              lastname: values.lastName,
-              useremail: values.useremail,
-              password: values.password,
-            })
-              .then(response => {
-                navigation.navigate('Explore');
-              })
-              .catch(error => {
-                console.error(error);
-              });
-    
-            actions.resetForm();
+          initialValues={{ 
+            firstName: "", 
+            lastName: "", 
+            useremail: "", 
+            password: "", 
+            confirmPassword: "", 
+            phoneNumber: "" 
           }}
+          validationSchema={RegisterSchema}
+          onSubmit={handleRegistration}
         >
           {(props) => (
             <View>
@@ -129,7 +184,7 @@ export default function Register({ navigation }) {
                 value={props.values.useremail}
                 onBlur={props.handleBlur("useremail")}
                 requiredConfig={{
-                  text: props.touched.email && props.errors.email,
+                  text: props.touched.useremail && props.errors.useremail,
                   style: {
                     marginBottom: 10,
                     color: "red",
@@ -169,23 +224,25 @@ export default function Register({ navigation }) {
                 }}
               />
 
+            
+
               <TouchableOpacity style={styles.registerbtn} onPress={props.handleSubmit}>
-                <Text style={{color: "white"}}>Register</Text>
+                <Text style={{ color: "white" }}>Register</Text>
               </TouchableOpacity>
             </View>
           )}
         </Formik>
-        <View style={styles.createAccount}>
-        <Text style={styles.createAccountText}>Already have an Account? </Text>
-        <TouchableOpacity style={styles.registerBtn} onPress={() => navigation.navigate("Siginin")}>
-          <Text style={styles.registerBtnText}>Login</Text>
-        </TouchableOpacity>
-      </View>
 
+        <View style={styles.createAccount}>
+          <Text style={styles.createAccountText}>Already have an Account? </Text>
+          <TouchableOpacity style={styles.registerBtn} onPress={() => navigation.navigate("Siginin")}>
+            <Text style={styles.registerBtnText}>Login</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </ScrollView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -213,12 +270,8 @@ const styles = StyleSheet.create({
     marginBottom: 50,
     flexDirection: "row",
   },
-  registerBtnText: {
-    color: "white",
-    fontSize: 22,
-  },
   createAccount: {
-    marginTop:-40,
+    marginTop: -40,
     width: 280,
     marginBottom: 20,
     height: 20,
@@ -227,9 +280,10 @@ const styles = StyleSheet.create({
   createAccountText: {
     color: "grey",
   },
-  registerBtn: {},
   registerBtnText: {
     color: "#e65c40",
     textDecorationLine: "underline",
   },
 });
+
+export default Register;

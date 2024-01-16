@@ -19,7 +19,7 @@ const CustomDrawerContent = ({ navigation }) => {
 
   const fetchAuthStatus = useCallback(async () => {
     try {
-      const response = await axios.get('http://192.168.1.64:3000/check-auth');
+      const response = await axios.get('http://192.168.1.67:3000/check-auth');
       const { isAuthenticated, isAdmin } = response.data;
       setIsAuthenticated(isAuthenticated);
       setIsAdmin(isAdmin);
@@ -65,7 +65,7 @@ const CustomDrawerContent = ({ navigation }) => {
             icon={() => <AntDesign name="logout" size={24} color="white" />}
             onPress={async () => {
               try {
-                await axios.get('http://192.168.1.64:3000/logout');
+                await axios.get('http://192.168.1.67:3000/logout');
                 setIsAuthenticated(false);
                 navigation.navigate('HomeDrawer');
               } catch (error) {

@@ -27,7 +27,7 @@ export default function Login({ navigation }) {
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values, actions) => {
-          axios.post('http://192.168.1.64:3000/login', {
+          axios.post('http://192.168.1.67:3000/login', {
             useremail: values.email,
             password: values.password,
           })

@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-export default function EditUsers({ navigation }) {
+export default function EditUsers() {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUsers = async () => {
    try {
-     const response = await axios.get('http://192.168.1.64:3000/get-all-users');
+     const response = await axios.get('http://192.168.1.67:3000/get-all-users');
      const userData = response.data;
  
      // Check if userData is an array or a single object
@@ -31,7 +31,7 @@ export default function EditUsers({ navigation }) {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://192.168.1.64:3000/users/${userId}`);
+      await axios.delete(`http://192.168.1.67:3000/users/${userId}`);
       // Refresh the users list after deletion
       fetchUsers();
     } catch (error) {
@@ -41,7 +41,7 @@ export default function EditUsers({ navigation }) {
 
   const handleMakeAdmin = async (userId) => {
     try {
-      await axios.put(`http://192.168.1.64:3000/users/make-admin/${userId}`);
+      await axios.put(`http://192.168.1.67:3000/users/make-admin/${userId}`);
       // Refresh the users list after making admin
       fetchUsers();
     } catch (error) {

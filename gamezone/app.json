@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "gamezone",
-    "slug": "gamezone",
+    "slug": "rwanda-heritage-hub",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "2967d9e8-1f1b-459a-814c-176f6cc9f942"
+      }
+    },
+    "owner": "kirenga"
   }
 }

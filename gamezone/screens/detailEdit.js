@@ -25,7 +25,7 @@ const DetailEdit = ({ route, navigation }) => {
 
   const fetchExhibitDetails = async () => {
     try {
-      const response = await axios.get(`http://192.168.1.64:3000/exhibits/${exhibitId}`);
+      const response = await axios.get(`http://192.168.1.67:3000/exhibits/${exhibitId}`);
       const exhibitData = response.data;
 
       setInitialValues({
@@ -40,7 +40,7 @@ const DetailEdit = ({ route, navigation }) => {
 
   const handleUpdateExhibit = async (values) => {
     try {
-      const response = await axios.put(`http://192.168.1.64:3000/exhibits/${exhibitId}`, values);
+      const response = await axios.put(`http://192.168.1.67:3000/exhibits/${exhibitId}`, values);
 
       if (response.data.success) {
         console.log('Exhibit updated successfully');
