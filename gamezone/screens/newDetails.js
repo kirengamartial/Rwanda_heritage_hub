@@ -15,7 +15,7 @@ const NewExhibitForm = ({ navigation }) => {
 
   const handleCreateExhibit = async (values) => {
    try {
-     const response = await axios.post('http://192.168.1.67:3000/exhibits', values);
+     const response = await axios.post('http://192.168.43.194:3000/exhibits', values);
  
      if (response.data) {
        navigation.navigate('Home', { exhibitId: response.data._id, exhibitData: response.data });

@@ -8,7 +8,7 @@ export default function EditUsers() {
 
   const fetchUsers = async () => {
    try {
-     const response = await axios.get('http://192.168.1.67:3000/get-all-users');
+     const response = await axios.get('http://192.168.43.194:3000/get-all-users');
      const userData = response.data;
  
      // Check if userData is an array or a single object
@@ -31,7 +31,7 @@ export default function EditUsers() {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://192.168.1.67:3000/users/${userId}`);
+      await axios.delete(`http://192.168.43.194:3000/users/${userId}`);
       // Refresh the users list after deletion
       fetchUsers();
     } catch (error) {
@@ -41,7 +41,7 @@ export default function EditUsers() {
 
   const handleMakeAdmin = async (userId) => {
     try {
-      await axios.put(`http://192.168.1.67:3000/users/make-admin/${userId}`);
+      await axios.put(`http://192.168.43.194:3000/users/make-admin/${userId}`);
       // Refresh the users list after making admin
       fetchUsers();
     } catch (error) {

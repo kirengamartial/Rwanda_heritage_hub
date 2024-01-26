@@ -27,13 +27,13 @@ export default function Login({ navigation }) {
         initialValues={{ email: "", password: "" }}
         validationSchema={LoginSchema}
         onSubmit={(values, actions) => {
-          axios.post('http://192.168.1.67:3000/login', {
+          axios.post('http://192.168.43.194:3000/login', {
             useremail: values.email,
             password: values.password,
           })
           .then(response => {
             if (response.data.success) {
-              navigation.navigate('Explore');
+              navigation.navigate('Home');
             } else {
               console.log("Login failed");
             }

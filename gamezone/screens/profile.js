@@ -27,7 +27,7 @@ const Profile = ({ navigation }) => {
 
   const fetchUserData = async () => {
     try {
-      const response = await axios.get('http://192.168.1.67:3000/get-username', {
+      const response = await axios.get('http://192.168.43.194:3000/get-username', {
         credentials: 'include',
       });
 
@@ -46,7 +46,7 @@ const Profile = ({ navigation }) => {
 
   const handleProfileUpdate = async (values) => {
     try {
-      const response = await axios.post('http://192.168.1.67:3000/update-user', {
+      const response = await axios.post('http://192.168.43.194:3000/update-user', {
         firstname: values.firstName,
         lastname: values.lastName,
         useremail: values.useremail,

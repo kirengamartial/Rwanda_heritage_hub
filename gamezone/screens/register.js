@@ -56,7 +56,7 @@ const Register = ({ navigation }) => {
 
   const handleRegistration = async (values, actions) => {
     try {
-      const response = await axios.post('http://192.168.1.67:3000/register', {
+      const response = await axios.post('http://192.168.43.194:3000/register', {
         firstname: values.firstName,
         lastname: values.lastName,
         useremail: values.useremail,
@@ -65,7 +65,7 @@ const Register = ({ navigation }) => {
 
       // Check if registration is successful
       if (response.data.success) {
-        navigation.navigate('Explore');
+        navigation.navigate('Home');
       } else {
         console.error('Registration failed:', response.data.message);
       }

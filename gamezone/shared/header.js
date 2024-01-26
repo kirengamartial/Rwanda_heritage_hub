@@ -13,7 +13,7 @@ export default function Header({ navigation, title }) {
 
   const fetchUsername = async () => {
     try {
-      const response = await axios.get('http://192.168.1.67:3000/check-auth');
+      const response = await axios.get('http://192.168.43.194:3000/check-auth');
       const { isAuthenticated, username } = response.data;
 
       setIsAuthenticated(isAuthenticated);

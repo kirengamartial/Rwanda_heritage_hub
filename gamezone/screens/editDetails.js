@@ -12,7 +12,7 @@ export default function EditDetails({ route, navigation }) {
 
   const fetchExhibitDetails = async () => {
     try {
-      const response = await axios.get('http://192.168.1.67:3000/exhibits');
+      const response = await axios.get('http://192.168.43.194:3000/exhibits');
       setExhibitDetails(response.data);
       setIsLoading(false);
     } catch (error) {
@@ -33,7 +33,7 @@ export default function EditDetails({ route, navigation }) {
 
   const handleDelete = async (exhibitId) => {
     try {
-      await axios.delete(`http://192.168.1.67:3000/exhibits/${exhibitId}`);
+      await axios.delete(`http://192.168.43.194:3000/exhibits/${exhibitId}`);
       // Refresh the exhibit details after deletion
       fetchExhibitDetails();
     } catch (error) {
